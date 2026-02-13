@@ -1,4 +1,5 @@
-const express = require('express')
+// Branche A : Serveur Express principal
+const express = require('express');
 const dotenv = require('dotenv')
 const connectDB=require('./config/database')
 
