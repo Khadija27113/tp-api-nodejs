@@ -46,6 +46,10 @@ const etudiantSchema = new mongoose.Schema({
     dateInscription: {
         type: Date,
         default: Date.now
+    },
+    actif: {
+    type: Boolean,
+    default: true
     }
 }, {
     timestamps: true // Ajoute createdAt et updatedAt automatiquement

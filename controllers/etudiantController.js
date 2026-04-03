@@ -1,4 +1,5 @@
 // Importer le modèle Etudiant
+const mongoose = require('mongoose');
 const Etudiant = require('../models/Etudiant');
 
 // Les fonctions CRUD seront ajoutées ici...
@@ -94,14 +95,18 @@ exports.getAllEtudiants = async (req, res) => {
 
 exports.getEtudiantById = async (req, res) => {
     try {
-        // Étape 1: Récupérer l'ID depuis les paramètres de l'URL
-        // req.params contient les paramètres de l'URL
-        console.log('🔍 Recherche de l\'ID:', req.params.id);
+        const id = req.params.id;
 
-        // Étape 2: Chercher l'étudiant par son ID
-        const etudiant = await Etudiant.findById(req.params.id);
+        // ✅ Check valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'ID invalide'
+            });
+        }
 
-        // Étape 3: Vérifier si l'étudiant existe
+        const etudiant = await Etudiant.findById(id);
+
         if (!etudiant) {
             return res.status(404).json({
                 success: false,
@@ -109,7 +114,6 @@ exports.getEtudiantById = async (req, res) => {
             });
         }
 
-        // Étape 4: Renvoyer l'étudiant trouvé
         res.status(200).json({
             success: true,
             data: etudiant
