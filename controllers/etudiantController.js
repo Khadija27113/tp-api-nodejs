@@ -344,3 +344,23 @@ exports.advancedSearch = async (req, res) => {
         });
     }
 };
+
+exports.getEtudiantsSorted = async (req, res) => {
+    try {
+        const etudiants = await Etudiant.find({ actif: true })
+                                        .sort({ moyenne: -1 }); // tri décroissant
+
+        res.status(200).json({
+            success: true,
+            count: etudiants.length,
+            data: etudiants
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Erreur serveur',
+            error: error.message
+        });
+    }
+};
